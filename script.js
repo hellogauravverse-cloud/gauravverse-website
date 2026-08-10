@@ -1,71 +1,103 @@
-// MOBILE MENU
+/* MOBILE MENU */
 
 const menuBtn = document.getElementById("menuBtn");
 const navigation = document.getElementById("navigation");
 
-if (menuBtn) {
+if (menuBtn && navigation) {
+
 menuBtn.addEventListener("click", function () {
-navigation.classList.toggle("active");
+
+    navigation.classList.toggle("active");
+
+    if (navigation.classList.contains("active")) {
+        menuBtn.textContent = "✕";
+    } else {
+        menuBtn.textContent = "☰";
+    }
+
 });
+
+
+const navLinks = navigation.querySelectorAll("a");
+
+navLinks.forEach(function(link) {
+
+    link.addEventListener("click", function() {
+
+        navigation.classList.remove("active");
+        menuBtn.textContent = "☰";
+
+    });
+
+});
+
 }
 
-// CLOSE MOBILE MENU AFTER CLICKING A LINK
-
-document.querySelectorAll("#navigation a").forEach(function (link) {
-
-link.addEventListener("click", function () {  
-    navigation.classList.remove("active");  
-});
-
-});
-
-// ENQUIRY FORM → WHATSAPP
+/* ENQUIRY FORM → WHATSAPP */
 
 const contactForm = document.getElementById("contactForm");
 
 if (contactForm) {
 
-contactForm.addEventListener("submit", function (event) {  
+contactForm.addEventListener("submit", function(event) {
 
-    event.preventDefault();  
+    event.preventDefault();
 
-    const name =  
-        document.getElementById("name").value.trim();  
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const service = document.getElementById("service").value;
+    const message = document.getElementById("message").value.trim();
 
-    const phone =  
-        document.getElementById("phone").value.trim();  
+    if (!name || !phone || !service || !message) {
 
-    const email =  
-        document.getElementById("email").value.trim();  
+        alert("Please fill in all required fields.");
 
-    const service =  
-        document.getElementById("service").value;  
+        return;
+    }
 
-    const message =  
-        document.getElementById("message").value.trim();  
+    const text =
+        "Hello Gauravverse Financial & Web Solution,\n\n" +
+        "New Website Enquiry\n\n" +
+        "Name: " + name + "\n" +
+        "Mobile: " + phone + "\n" +
+        "Email: " + (email || "Not provided") + "\n" +
+        "Service: " + service + "\n" +
+        "Requirement: " + message;
 
+    const whatsappURL =
+        "https://wa.me/919209526442?text=" +
+        encodeURIComponent(text);
 
-    const whatsappMessage =
-
-`Hello Gauravverse Financial & Web Solution,
-
-I have a new website enquiry.
-
-Name: ${name}
-Mobile: ${phone}
-Email: ${email || "Not provided"}
-Service: ${service}
-Requirement: ${message}
-
-Please contact me regarding this enquiry.`;
-
-const whatsappURL =  
-        "https://wa.me/919209526442?text=" +  
-        encodeURIComponent(whatsappMessage);  
-
-
-    window.open(whatsappURL, "_blank");  
+    window.open(whatsappURL, "_blank");
 
 });
 
 }
+
+/* SMOOTH SCROLL */
+
+document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+
+link.addEventListener("click", function(event) {
+
+    const targetId = this.getAttribute("href");
+
+    if (
+        targetId &&
+        targetId !== "#" &&
+        document.querySelector(targetId)
+    ) {
+
+        event.preventDefault();
+
+        document.querySelector(targetId).scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }
+
+});
+
+});
