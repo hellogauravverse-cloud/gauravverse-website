@@ -71,6 +71,7 @@ display: none;
 border: 0;
 background: transparent;
 font-size: 28px;
+cursor: pointer;
 }
 
 /* HERO */
@@ -637,9 +638,7 @@ font-weight: 800;
 cursor: pointer;
 }
 
-/* =========================================
-FOOTER — FINAL FIX
-========================================= */
+/* FOOTER */
 
 .footer {
 display: block !important;
@@ -853,4 +852,4 @@ box-shadow: 0 8px 25px rgba(0,0,0,.18);
     bottom: 14px;
 }
 
-}
+  }
