@@ -49,12 +49,15 @@ contactForm.addEventListener("submit", function(event) {
     const service = document.getElementById("service").value;
     const message = document.getElementById("message").value.trim();
 
+
     if (!name || !phone || !service || !message) {
 
         alert("Please fill in all required fields.");
 
         return;
+
     }
+
 
     const text =
         "Hello Gauravverse Financial & Web Solution,\n\n" +
@@ -65,9 +68,11 @@ contactForm.addEventListener("submit", function(event) {
         "Service: " + service + "\n" +
         "Requirement: " + message;
 
+
     const whatsappURL =
         "https://wa.me/919209526442?text=" +
         encodeURIComponent(text);
+
 
     window.open(whatsappURL, "_blank");
 
@@ -83,6 +88,7 @@ link.addEventListener("click", function(event) {
 
     const targetId = this.getAttribute("href");
 
+
     if (
         targetId &&
         targetId !== "#" &&
@@ -91,9 +97,12 @@ link.addEventListener("click", function(event) {
 
         event.preventDefault();
 
+
         document.querySelector(targetId).scrollIntoView({
+
             behavior: "smooth",
             block: "start"
+
         });
 
     }
