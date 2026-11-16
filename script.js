@@ -1,112 +1,65 @@
-/* MOBILE MENU */
+// Gauravverse website interactions
+// The contact number is configured once here for WhatsApp form submissions.
+const WHATSAPP_NUMBER = "917499516071";
 
-const menuBtn = document.getElementById("menuBtn");
-const navigation = document.getElementById("navigation");
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
 
-if (menuBtn && navigation) {
+if (menuToggle && navLinks) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = navLinks.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+    menuToggle.textContent = isOpen ? "×" : "☰";
+  });
 
-menuBtn.addEventListener("click", function () {
-
-    navigation.classList.toggle("active");
-
-    if (navigation.classList.contains("active")) {
-        menuBtn.textContent = "✕";
-    } else {
-        menuBtn.textContent = "☰";
-    }
-
-});
-
-
-const navLinks = navigation.querySelectorAll("a");
-
-navLinks.forEach(function(link) {
-
-    link.addEventListener("click", function() {
-
-        navigation.classList.remove("active");
-        menuBtn.textContent = "☰";
-
+  navLinks.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.setAttribute("aria-label", "Open navigation");
+      menuToggle.textContent = "☰";
     });
-
-});
-
+  });
 }
 
-/* ENQUIRY FORM → WHATSAPP */
+// Prefill the enquiry service when a service card is selected.
+document.querySelectorAll("[data-service]").forEach(link => {
+  link.addEventListener("click", () => {
+    const serviceSelect = document.getElementById("service");
+    if (serviceSelect) serviceSelect.value = link.dataset.service;
+  });
+});
 
 const contactForm = document.getElementById("contactForm");
-
 if (contactForm) {
-
-contactForm.addEventListener("submit", function(event) {
-
+  contactForm.addEventListener("submit", event => {
     event.preventDefault();
 
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
-    const email = document.getElementById("email").value.trim();
     const service = document.getElementById("service").value;
     const message = document.getElementById("message").value.trim();
 
-
-    if (!name || !phone || !service || !message) {
-
-        alert("Please fill in all required fields.");
-
-        return;
-
+    if (!name || !phone || !service) {
+      alert("Please complete your name, mobile number and service.");
+      return;
     }
 
+    const whatsappMessage = [
+      "Hello Gauravverse Financial & Web Solutions,",
+      "",
+      "I would like to make an enquiry.",
+      `Name: ${name}`,
+      `My mobile number: ${phone}`,
+      `Interested in: ${service}`,
+      message ? `Message: ${message}` : ""
+    ].filter(Boolean).join("\n");
 
-    const text =
-        "Hello Gauravverse Financial & Web Solution,\n\n" +
-        "New Website Enquiry\n\n" +
-        "Name: " + name + "\n" +
-        "Mobile: " + phone + "\n" +
-        "Email: " + (email || "Not provided") + "\n" +
-        "Service: " + service + "\n" +
-        "Requirement: " + message;
-
-
-    const whatsappURL =
-        "https://wa.me/919209526442?text=" +
-        encodeURIComponent(text);
-
-
-    window.open(whatsappURL, "_blank");
-
-});
-
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  });
 }
 
-/* SMOOTH SCROLL */
-
-document.querySelectorAll('a[href^="#"]').forEach(function(link) {
-
-link.addEventListener("click", function(event) {
-
-    const targetId = this.getAttribute("href");
-
-
-    if (
-        targetId &&
-        targetId !== "#" &&
-        document.querySelector(targetId)
-    ) {
-
-        event.preventDefault();
-
-
-        document.querySelector(targetId).scrollIntoView({
-
-            behavior: "smooth",
-            block: "start"
-
-        });
-
-    }
-
-});
-
-});
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
